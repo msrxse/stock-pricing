@@ -1,9 +1,9 @@
-import type { StocksAggregates } from "@/types";
+import type { StocksAggregatesObject } from "@/types";
 
 export function LineChart({
   stocksAggregates,
 }: {
-  stocksAggregates: StocksAggregates[];
+  stocksAggregates: StocksAggregatesObject;
 }) {
-  return <div>{JSON.stringify(stocksAggregates[0])}</div>;
+  return <div>{JSON.stringify(Object.keys(stocksAggregates))}</div>;
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { restClient } from "@polygon.io/client-js";
 import { Toolbar } from "@/components/Toolbar";
-import type { ListTickets, StocksAggregates } from "@/types";
+import type { ListTickets, StocksAggregatesObject } from "@/types";
 import { LineChart } from "@/components/LineChart";
 
 function App() {
@@ -11,21 +11,23 @@ function App() {
     "https://api.polygon.io"
   );
   const [listTickets, setListTickets] = useState<ListTickets[]>([]);
-  const [stocksAggregates, setStocksAggregates] = useState<StocksAggregates[]>(
-    []
-  );
+  const [stocksAggregates, setStocksAggregates] =
+    useState<StocksAggregatesObject>({});
 
-  async function getStocksAggregates() {
+  async function getStocksAggregates(ticket: string) {
     try {
       const response = await rest.getStocksAggregates(
-        "AAPL", // ticker
+        ticket, // ticker
         1, // multiplier
         "day", // timespan
         "2024-01-09", // from
         "2025-02-10", // to
         { adjusted: true, sort: "asc", limit: 120 } // optional query params
       );
-      setStocksAggregates(response.results || []);
+      setStocksAggregates({
+        ...stocksAggregates,
+        [ticket]: response.results || [],
+      });
     } catch (e) {
       console.error("An error happened:", e);
     }

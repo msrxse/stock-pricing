@@ -23,3 +23,7 @@ export interface StocksAggregates {
   t: number; // timestamp
   n?: number; // number of transactions
 }
+
+export interface StocksAggregatesObject {
+  [key: string]: StocksAggregates[];
+}

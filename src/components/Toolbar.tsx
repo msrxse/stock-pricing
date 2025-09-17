@@ -12,12 +12,12 @@ export function Toolbar({
   getStocksAggregates,
 }: {
   listTickets: ListTickets[] | undefined;
-  getStocksAggregates: () => void;
+  getStocksAggregates: (value: string) => void;
 }) {
   return (
     <div className="h-10 border border-gray-500">
       <>
-        <Select onValueChange={(value) => getStocksAggregates()}>
+        <Select onValueChange={(value) => getStocksAggregates(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Theme" />
           </SelectTrigger>
