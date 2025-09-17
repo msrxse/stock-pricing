@@ -7,19 +7,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function Toolbar({ listTickets }: { listTickets: ListTickets[] }) {
-  console.log(listTickets);
-
+export function Toolbar({
+  listTickets,
+  getStocksAggregates,
+}: {
+  listTickets: ListTickets[] | undefined;
+  getStocksAggregates: () => void;
+}) {
   return (
     <div className="h-10 border border-gray-500">
       <>
-        <Select>
+        <Select onValueChange={(value) => getStocksAggregates()}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Theme" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="none">None</SelectItem>
-            {listTickets.map((ticket) => (
+            {(listTickets || []).map((ticket) => (
               <SelectItem key={ticket.ticker} value={ticket.ticker}>
                 {ticket.ticker}
               </SelectItem>

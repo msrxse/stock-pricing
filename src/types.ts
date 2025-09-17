@@ -12,3 +12,14 @@ export interface ListTickets {
   ticker: string;
   type?: string;
 }
+
+export interface StocksAggregates {
+  v: number; // volume
+  vw?: number; // volume weighted average price
+  o: number; // open price
+  c: number; // close price
+  h: number; // high price
+  l: number; // low price
+  t: number; // timestamp
+  n?: number; // number of transactions
+}
