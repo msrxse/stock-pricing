@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as d3 from "d3";
-// import mainData from "./data.json";
 import type { StocksAggregates, StocksAggregatesObject } from "@/types";
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
@@ -23,8 +22,6 @@ export const LineChart = ({
 
   const allSeries = Object.values(stocksAggregates).flat();
 
-  console.log("data", stocksAggregates);
-
   // Y axis
   const [min, max] = d3.extent(allSeries, (d) => d.o);
   const yScale = useMemo(() => {
@@ -38,16 +35,24 @@ export const LineChart = ({
   const [xMin, xMax] = d3.extent(allSeries, (d) => d.t);
   const xScale = useMemo(() => {
     return d3
-      .scaleLinear()
-      .domain([xMin || 0, xMax || 0])
+      .scaleTime()
+      .domain([xMin || new Date(), xMax || new Date()])
       .range([0, boundsWidth]);
   }, [allSeries, width]);
+  const colorScale = d3
+    .scaleOrdinal<string>()
+    .domain(Object.keys(stocksAggregates))
+    .range(d3.schemeTableau10);
 
   // Render the X and Y axis using d3.js, not react
   useEffect(() => {
     const svgElement = d3.select(axesRef.current);
     svgElement.selectAll("*").remove();
-    const xAxisGenerator = d3.axisBottom(xScale);
+    const xAxisGenerator = d3
+      .axisBottom(xScale)
+      .ticks(6)
+      .tickFormat(d3.timeFormat("%b %d") as any);
+
     svgElement
       .append("g")
       .attr("transform", "translate(0," + boundsHeight + ")")
@@ -60,11 +65,27 @@ export const LineChart = ({
   // Build the line
   const lineBuilder = d3
     .line<DataPoint>()
-    .x((d) => xScale(d.t))
+    .x((d) => xScale(new Date(d.t)))
     .y((d) => yScale(d.o));
 
   return (
     <svg width={width} height={height}>
+      <g transform={`translate(${MARGIN.left}, ${MARGIN.top - 10})`}>
+        {Object.keys(stocksAggregates).map((ticker, i) => (
+          <g key={ticker} transform={`translate(${i * 100}, 0)`}>
+            <rect
+              width={12}
+              height={12}
+              fill={colorScale(ticker)}
+              rx={2}
+              ry={2}
+            />
+            <text x={18} y={10} fontSize={12} fill="#333">
+              {ticker}
+            </text>
+          </g>
+        ))}
+      </g>
       <g
         width={boundsWidth}
         height={boundsHeight}
@@ -80,7 +101,7 @@ export const LineChart = ({
               d={linePath}
               fill="none"
               strokeWidth={2}
-              stroke={d3.schemeTableau10[i % 10]} // distinct colors
+              stroke={colorScale(ticker)}
               opacity={0.9}
             />
           );

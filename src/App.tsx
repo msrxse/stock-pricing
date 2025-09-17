@@ -63,7 +63,7 @@ function App() {
       <div className="h-80 border border-gray-500 border-t-0">
         <LineChart
           stocksAggregates={stocksAggregates}
-          width={400}
+          width={800}
           height={350}
         />
       </div>
