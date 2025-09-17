@@ -186,27 +186,3 @@ export const LineChart = ({
     </svg>
   );
 };
-
-// {/* Overview chart (below main) */}
-// <g transform={`translate(${MARGIN.left}, ${height - 80})`}>
-//   {Object.entries(stocksAggregates).map(([ticker, series]) => {
-//     const linePath = lineBuilder(
-//       series as DataPoint[],
-//       xScaleOverview,
-//       yScaleOverview
-//     );
-//     return (
-//       <path
-//         key={ticker + "-overview"}
-//         d={linePath}
-//         fill="none"
-//         stroke={colorScale(ticker)}
-//         strokeWidth={1}
-//         opacity={0.6}
-//       />
-//     );
-//   })}
-
-//   {/* Brush area */}
-//   <g ref={brushRef} />
-// </g>
