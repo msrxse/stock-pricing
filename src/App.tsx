@@ -61,7 +61,11 @@ function App() {
         getStocksAggregates={getStocksAggregates}
       />
       <div className="h-80 border border-gray-500 border-t-0">
-        <LineChart stocksAggregates={stocksAggregates} />
+        <LineChart
+          stocksAggregates={stocksAggregates}
+          width={400}
+          height={350}
+        />
       </div>
     </main>
   );
