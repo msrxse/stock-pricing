@@ -62,8 +62,9 @@ As a fund manager
 ```
 src/
  ├─ components/
+ │   ├─ ui/
+ │      └─ select.tsx      # Select component from Shadcn
  │   ├─ LineChart.tsx      # Main multi-line stock chart
- │   ├─ Brush.tsx          # Reusable D3 brush component (optional)
  │   └─ Toolbar.tsx        # Toolbar with ticker + price type selectors
  ├─ types/
      └─ index.ts           # StocksAggregates interface (OHLCV etc.)
@@ -75,7 +76,9 @@ src/
 
 1. Clone this repository
 
-git clone & cd into directory
+   ```bash
+    <!--git clone & cd into directory -->
+   ```
 
 2. Install dependencies
 
@@ -99,8 +102,8 @@ git clone & cd into directory
 - [ ] **Adding date filter**  
        Missed adding a date filter on the data fetch itself. Hope the brush component makes up for it.
 
-- [ ] **Chart Legend improvement and click to remove**  
-       Allow users to click a ❌ on each legend item to remove a ticker selection.
+- [ ] **Chart Legend improvements and click to remove**  
+       Allow users to click on each legend item to remove a ticker selection.
 
 - [ ] **Hover tooltip**  
        Display date, ticker, and OHLC value at the hovered point on the chart.
