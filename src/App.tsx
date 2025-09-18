@@ -42,7 +42,7 @@ function App() {
         order: "asc",
         limit: "100",
         sort: "ticker",
-      });
+      } as any);
 
       setListTickets(response.results || []);
     } catch (e) {
@@ -55,12 +55,12 @@ function App() {
   }, []);
 
   return (
-    <main className="flex flex-col justify-center text-center max-w-5xl mx-auto h-dvh">
+    <main className="flex flex-col justify-center text-center max-w-5xl mx-auto h-dvh bg-gray-50">
       <Toolbar
         listTickets={listTickets}
         getStocksAggregates={getStocksAggregates}
       />
-      <div className="h-80 border border-gray-500 border-t-0">
+      <div className="h-100 border-b border-gray-200 bg-white shadow-sm">
         <LineChart
           stocksAggregates={stocksAggregates}
           width={800}

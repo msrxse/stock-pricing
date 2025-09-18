@@ -79,8 +79,8 @@ export const LineChart = ({
       .brushX()
       .extent([
         [0, 0],
-        [boundsWidth, 50],
-      ]) // small overview height
+        [boundsWidth, OVERVIEW_HEIGHT],
+      ])
       .on("end", (event) => {
         if (!event.selection) return;
         const [x0, x1] = event.selection.map(xScaleOverview.invert);
@@ -110,7 +110,7 @@ export const LineChart = ({
       .y((d) => y(d.o))(series);
 
   return (
-    <svg width={width} height={height}>
+    <svg width={width} height={height + OVERVIEW_HEIGHT + MARGIN.top}>
       {/* Legend */}
       <g transform={`translate(${MARGIN.left}, ${MARGIN.top - 20})`}>
         {Object.keys(stocksAggregates).map((ticker, i) => (
@@ -139,7 +139,7 @@ export const LineChart = ({
           const linePath = lineBuilder(series as DataPoint[], xScale, yScale);
           if (!linePath) return null;
 
-          return (
+          return linePath ? (
             <path
               key={ticker}
               d={linePath}
@@ -148,19 +148,31 @@ export const LineChart = ({
               stroke={colorScale(ticker)}
               opacity={0.9}
             />
-          );
+          ) : null;
         })}
       </g>
 
       {/* Overview chart */}
-      <g transform={`translate(${MARGIN.left}, ${height - 80})`}>
+      <g
+        transform={`translate(${MARGIN.left}, ${
+          height - OVERVIEW_HEIGHT + MARGIN.top
+        })`}
+      >
+        <rect
+          width={boundsWidth}
+          height={OVERVIEW_HEIGHT}
+          fill="#f8f9fa" // light gray/white background
+          stroke="#ddd" // border
+          rx={4}
+          ry={4} // rounded corners
+        />
         {Object.entries(stocksAggregates).map(([ticker, series]) => {
           const linePath = lineBuilder(
             series as DataPoint[],
             xScaleOverview,
             yScaleOverview
           );
-          return (
+          return linePath ? (
             <path
               key={ticker + "-overview"}
               d={linePath}
@@ -169,7 +181,7 @@ export const LineChart = ({
               strokeWidth={1}
               opacity={0.6}
             />
-          );
+          ) : null;
         })}
 
         {/* Brush area */}

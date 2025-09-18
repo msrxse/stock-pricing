@@ -15,7 +15,7 @@ export function Toolbar({
   getStocksAggregates: (value: string) => void;
 }) {
   return (
-    <div className="h-10 border border-gray-500">
+    <div className="flex items-center gap-4 h-12 px-4 border-b border-gray-200 bg-white shadow-sm">
       <>
         <Select onValueChange={(value) => getStocksAggregates(value)}>
           <SelectTrigger className="w-[180px]">
