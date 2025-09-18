@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 
 import { restClient } from "@polygon.io/client-js";
 import { Toolbar } from "@/components/Toolbar";
-import type { ListTickets, StocksAggregatesObject } from "@/types";
+import type {
+  ListTickets,
+  PriceTypeKeys,
+  StocksAggregatesObject,
+} from "@/types";
 import { LineChart } from "@/components/LineChart";
 
 function App() {
@@ -13,6 +17,7 @@ function App() {
   const [listTickets, setListTickets] = useState<ListTickets[]>([]);
   const [stocksAggregates, setStocksAggregates] =
     useState<StocksAggregatesObject>({});
+  const [priceType, setPriceType] = useState<PriceTypeKeys>("o");
 
   async function getStocksAggregates(ticket: string) {
     try {
@@ -60,10 +65,13 @@ function App() {
         listTickets={listTickets}
         stocksAggregates={stocksAggregates}
         getStocksAggregates={getStocksAggregates}
+        priceType={priceType}
+        setPriceType={setPriceType}
       />
       <div className="h-100 border-b border-gray-200 bg-white shadow-sm">
         <LineChart
           stocksAggregates={stocksAggregates}
+          priceType={priceType}
           width={800}
           height={350}
         />

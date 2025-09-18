@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
-import type { StocksAggregates, StocksAggregatesObject } from "@/types";
+import type {
+  PriceTypeKeys,
+  StocksAggregates,
+  StocksAggregatesObject,
+} from "@/types";
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 const OVERVIEW_HEIGHT = 60;
@@ -9,12 +13,14 @@ type LineChartProps = {
   width: number;
   height: number;
   stocksAggregates: StocksAggregatesObject;
+  priceType: PriceTypeKeys;
 };
 
 export const LineChart = ({
   width,
   height,
   stocksAggregates,
+  priceType,
 }: LineChartProps) => {
   const axesRef = useRef(null);
   const brushRef = useRef<SVGGElement>(null);
@@ -25,7 +31,7 @@ export const LineChart = ({
   const allSeries = Object.values(stocksAggregates).flat();
 
   // Y axis
-  const [min, max] = d3.extent(allSeries, (d) => d.o);
+  const [min, max] = d3.extent(allSeries, (d) => d[priceType]);
   const yScale = useMemo(() => {
     return d3
       .scaleLinear()
@@ -107,7 +113,7 @@ export const LineChart = ({
     d3
       .line<DataPoint>()
       .x((d) => x(new Date(d.t)))
-      .y((d) => y(d.o))(series);
+      .y((d) => y(d[priceType]))(series);
 
   return (
     <svg width={width} height={height + OVERVIEW_HEIGHT + MARGIN.top}>

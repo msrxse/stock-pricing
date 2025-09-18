@@ -27,3 +27,6 @@ export interface StocksAggregates {
 export interface StocksAggregatesObject {
   [key: string]: StocksAggregates[];
 }
+
+// Derive OHLC keys
+export type PriceTypeKeys = keyof Pick<StocksAggregates, "o" | "h" | "l" | "c">;

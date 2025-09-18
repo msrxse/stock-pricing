@@ -1,4 +1,9 @@
-import type { ListTickets, StocksAggregatesObject } from "@/types";
+import type {
+  ListTickets,
+  PriceTypeKeys,
+  StocksAggregates,
+  StocksAggregatesObject,
+} from "@/types";
 import {
   Select,
   SelectContent,
@@ -12,10 +17,14 @@ export function Toolbar({
   listTickets,
   stocksAggregates,
   getStocksAggregates,
+  priceType,
+  setPriceType,
 }: {
   listTickets: ListTickets[] | undefined;
   stocksAggregates: StocksAggregatesObject;
   getStocksAggregates: (value: string) => void;
+  priceType: PriceTypeKeys;
+  setPriceType: (val: PriceTypeKeys) => void;
 }) {
   const [error, setError] = useState<string | null>(null);
 
@@ -50,6 +59,23 @@ export function Toolbar({
           <p className="mt-1 text-sm text-red-600 font-medium">{error}</p>
         )}
       </>
+      {/* Price type select */}
+      <div className="ml-auto">
+        <Select
+          value={priceType}
+          onValueChange={(val) => setPriceType(val as keyof StocksAggregates)}
+        >
+          <SelectTrigger className="w-[220px]">
+            <SelectValue placeholder="Select price type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="o">Open (o)</SelectItem>
+            <SelectItem value="h">High (h)</SelectItem>
+            <SelectItem value="l">Low (l)</SelectItem>
+            <SelectItem value="c">Close (c)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 }
