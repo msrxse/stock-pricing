@@ -58,6 +58,7 @@ function App() {
     <main className="flex flex-col justify-center text-center max-w-5xl mx-auto h-dvh bg-gray-50">
       <Toolbar
         listTickets={listTickets}
+        stocksAggregates={stocksAggregates}
         getStocksAggregates={getStocksAggregates}
       />
       <div className="h-100 border-b border-gray-200 bg-white shadow-sm">
