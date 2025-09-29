@@ -123,8 +123,6 @@ src/
 
 ![](./assets/app-image.jpeg)
 
-- There is also a .mov file in _assets/screen-recording.mov_
-
 ---
 
 ## Disclaimer
